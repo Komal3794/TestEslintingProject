@@ -7,7 +7,8 @@ import styles from './style';
 class ListScreen extends Component {
   static renderList(dataObj) {
     if (dataObj && dataObj.length > 0) {
-      return dataObj.map(data => {
+      return dataObj.map((data, i) => {
+        const index = i;
         if (data) {
           let icon = 'clear';
           let iconColor = 'red';
@@ -16,7 +17,7 @@ class ListScreen extends Component {
             iconColor = 'green';
           }
           return (
-            <View style={styles.listView}>
+            <View style={styles.listView} key={index}>
               <View style={{ flex: 1 }}>
                 <Text style={{ fontSize: 14, color: '#000' }}>{data.id}</Text>
               </View>
@@ -44,11 +45,30 @@ class ListScreen extends Component {
       })
       .then(response => {
         const resultElement = response;
-        console.log(resultElement);
+        // ListScreen.onButtonClick();
+        console.log(resultElement.data);
       })
       .catch(error => {
         Alert.alert('Error', error);
       });
+  }
+
+  // static onButtonClick() {
+  //   // const SELF = this;
+  //   let resultElement = {};
+  //   axios
+  //     .get('http://jsonplaceholder.typicode.com/todos')
+  //     .then(response => {
+  //       resultElement = response;
+  //       console.log('ResultElement==', resultElement);
+  //     })
+  //     .catch(error => {
+  //       Alert.alert('Error', error);
+  //     });
+  // }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log(props, '==next==', state);
   }
 
   constructor(props) {
